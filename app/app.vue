@@ -17,7 +17,6 @@
     </div>
 
     <!-- Step 2: Table Structure and Column Headers -->
-    <!-- 
     <div class="table-container">
       <div class="table-header">
         <div class="header-cell tags-header">Метки</div>
@@ -26,38 +25,7 @@
         <div class="header-cell password-header">Пароль</div>
         <div class="header-cell actions-header"></div>
       </div>
-
-      <div class="table-body">
-        <div class="table-row">
-          <div class="cell tags-cell">
-            <input type="text" class="input-field" value="XXX" />
-          </div>
-          <div class="cell type-cell">
-            <select class="dropdown">
-              <option value="local">Локальная</option>
-              <option value="ldap">LDAP</option>
-            </select>
-          </div>
-          <div class="cell login-cell">
-            <input type="text" class="input-field" value="Значение" />
-          </div>
-          <div class="cell password-cell">
-            <div class="password-container">
-              <input type="password" class="password-input" value="••••••••" />
-              <button class="password-toggle" type="button">
-                <span class="eye-icon">👁</span>
-              </button>
-            </div>
-          </div>
-          <div class="cell actions-cell">
-            <button class="delete-button" type="button">
-              <span class="trash-icon">🗑</span>
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
-    -->
   </div>
 </template>
 
@@ -147,7 +115,7 @@
   line-height: 1.4;
 }
 
-/* Step 2: Table Structure Styles - COMMENTED OUT FOR STEP 1
+/* Step 2: Table Structure Styles */
 .table-container {
   background: white;
   border-radius: 8px;
