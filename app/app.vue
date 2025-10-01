@@ -114,6 +114,55 @@
             </button>
           </div>
         </div>
+
+        <!-- Step 4: LDAP Account Entry Rows -->
+        <!-- LDAP Account Row 1 -->
+        <div class="table-row">
+          <div class="cell tags-cell">
+            <input type="text" class="input-field" value="Значение" />
+          </div>
+          <div class="cell type-cell">
+            <select class="dropdown">
+              <option value="ldap">LDAP</option>
+              <option value="local">Локальная</option>
+            </select>
+          </div>
+          <div class="cell login-cell">
+            <input type="text" class="input-field" value="Значение" />
+          </div>
+          <div class="cell password-cell">
+            <!-- Empty for LDAP accounts -->
+          </div>
+          <div class="cell actions-cell">
+            <button class="delete-button" type="button">
+              <span class="trash-icon">🗑</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- LDAP Account Row 2 -->
+        <div class="table-row">
+          <div class="cell tags-cell">
+            <input type="text" class="input-field" value="Значение" />
+          </div>
+          <div class="cell type-cell">
+            <select class="dropdown">
+              <option value="ldap">LDAP</option>
+              <option value="local">Локальная</option>
+            </select>
+          </div>
+          <div class="cell login-cell">
+            <input type="text" class="input-field" value="Значение" />
+          </div>
+          <div class="cell password-cell">
+            <!-- Empty for LDAP accounts -->
+          </div>
+          <div class="cell actions-cell">
+            <button class="delete-button" type="button">
+              <span class="trash-icon">🗑</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
