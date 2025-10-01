@@ -1,0 +1,44 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles for the account management form */
+.form-input {
+  @apply px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.form-input-error {
+  @apply border-red-500 focus:ring-red-500;
+}
+
+.form-select {
+  @apply px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white;
+}
+
+.form-select-error {
+  @apply border-red-500 focus:ring-red-500;
+}
+
+.btn-primary {
+  @apply px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors;
+}
+
+.btn-danger {
+  @apply px-3 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors;
+}
+
+.tooltip {
+  @apply relative cursor-help;
+}
+
+.tooltip-text {
+  @apply absolute z-10 w-64 p-2 text-sm text-gray-700 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible transition-all duration-200;
+}
+
+.tooltip:hover .tooltip-text {
+  @apply opacity-100 visible;
+}
+
+.password-dots {
+  @apply font-mono tracking-wider text-lg;
+}
