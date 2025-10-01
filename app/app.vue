@@ -277,111 +277,150 @@ onMounted(() => {
 
 <style scoped>
 .account-manager {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 32px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
 }
 
 .header {
-  margin-bottom: 20px;
+  margin-bottom: 32px;
 }
 
 .title-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 24px 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .main-title {
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: 3rem;
+  font-weight: 700;
   margin: 0;
-  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
 }
 
 .add-button {
-  width: 50px;
-  height: 50px;
-  border: 2px solid #007bff;
-  background: white;
-  border-radius: 8px;
+  width: 64px;
+  height: 64px;
+  border: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.add-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.add-button:hover::before {
+  opacity: 1;
 }
 
 .add-button:hover {
-  background: #007bff;
-  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.6);
+}
+
+.add-button:active {
+  transform: translateY(0);
 }
 
 .plus-icon {
-  font-size: 24px;
-  font-weight: bold;
-  color: #007bff;
-}
-
-.add-button:hover .plus-icon {
+  font-size: 28px;
+  font-weight: 300;
   color: white;
+  position: relative;
+  z-index: 1;
 }
 
 .info-bar {
-  background: #e3f2fd;
-  border-radius: 8px;
-  padding: 15px;
-  border-left: 4px solid #2196f3;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px 24px;
+  border-left: 4px solid #667eea;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .info-content {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .info-icon {
-  width: 24px;
-  height: 24px;
-  background: #2196f3;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .info-text {
-  color: #1976d2;
-  font-size: 14px;
-  line-height: 1.4;
+  color: #4a5568;
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
 /* Step 2: Table Structure Styles */
 .table-container {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .table-header {
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 60px;
-  background: #f8f9fa;
-  border-bottom: 2px solid #e9ecef;
+  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 80px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .header-cell {
-  padding: 15px 12px;
+  padding: 20px 16px;
   font-weight: 600;
-  color: #495057;
+  color: #2d3748;
   font-size: 14px;
-  border-right: 1px solid #e9ecef;
+  border-right: 1px solid rgba(226, 232, 240, 0.5);
+  letter-spacing: 0.025em;
 }
 
 .header-cell:last-child {
@@ -410,18 +449,20 @@ onMounted(() => {
 
 /* Step 3: Table Body and Row Styles */
 .table-body {
-  background: white;
+  background: transparent;
 }
 
 .table-row {
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 60px;
-  border-bottom: 1px solid #e9ecef;
-  transition: background-color 0.2s ease;
+  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 80px;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .table-row:hover {
-  background-color: #f8f9fa;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+  transform: translateY(-1px);
 }
 
 .table-row:last-child {
@@ -429,10 +470,10 @@ onMounted(() => {
 }
 
 .cell {
-  padding: 12px;
+  padding: 16px;
   display: flex;
   align-items: center;
-  border-right: 1px solid #e9ecef;
+  border-right: 1px solid rgba(226, 232, 240, 0.3);
 }
 
 .cell:last-child {
@@ -442,46 +483,63 @@ onMounted(() => {
 /* Input Field Styles */
 .input-field {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  padding: 12px 16px;
+  border: 2px solid rgba(226, 232, 240, 0.8);
+  border-radius: 12px;
   font-size: 14px;
-  background: white;
-  transition: border-color 0.2s ease;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+  color: #2d3748;
 }
 
 .input-field:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
 }
 
 .input-field.error {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 4px rgba(229, 62, 62, 0.1);
+  background: rgba(254, 226, 226, 0.3);
+}
+
+.input-field::placeholder {
+  color: #a0aec0;
+  font-weight: 400;
 }
 
 /* Dropdown Styles */
 .dropdown {
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  padding: 12px 16px;
+  border: 2px solid rgba(226, 232, 240, 0.8);
+  border-radius: 12px;
   font-size: 14px;
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 16px;
-  padding-right: 32px;
+  background-position: right 12px center;
+  background-size: 18px;
+  padding-right: 40px;
+  font-weight: 500;
+  color: #2d3748;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dropdown:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
 }
 
 /* Password Field Styles */
@@ -494,43 +552,53 @@ onMounted(() => {
 
 .password-input {
   width: 100%;
-  padding: 8px 40px 8px 12px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  padding: 12px 48px 12px 16px;
+  border: 2px solid rgba(226, 232, 240, 0.8);
+  border-radius: 12px;
   font-size: 14px;
-  background: white;
-  font-family: monospace;
-  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #2d3748;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .password-input:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
 }
 
 .password-input.error {
-  border-color: #dc3545;
-  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 4px rgba(229, 62, 62, 0.1);
+  background: rgba(254, 226, 226, 0.3);
 }
 
 .password-toggle {
   position: absolute;
-  right: 8px;
+  right: 12px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
-  color: #6c757d;
-  transition: color 0.2s ease;
+  padding: 8px;
+  color: #a0aec0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
 }
 
 .password-toggle:hover {
-  color: #007bff;
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+  transform: scale(1.1);
 }
 
 .eye-icon {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 /* Action Button Styles */
@@ -538,18 +606,43 @@ onMounted(() => {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
-  color: #dc3545;
-  transition: all 0.2s ease;
-  border-radius: 4px;
+  padding: 12px;
+  color: #e53e3e;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.delete-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(229, 62, 62, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.delete-button:hover::before {
+  opacity: 1;
 }
 
 .delete-button:hover {
-  background: #f8d7da;
-  color: #721c24;
+  color: #c53030;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
+
+.delete-button:active {
+  transform: translateY(0) scale(1);
 }
 
 .trash-icon {
-  font-size: 16px;
+  font-size: 18px;
+  position: relative;
+  z-index: 1;
 }
 </style>
