@@ -1,10 +1,182 @@
+<script setup>
+import { ref, reactive, onMounted, watch } from 'vue'
+
+// Интерфейс для учетной записи
+interface AccountRecord {
+  id: string
+  tags: string
+  type: 'local' | 'ldap'
+  login: string
+  password: string
+  errors: {
+    tags: boolean
+    login: boolean
+    password: boolean
+  }
+}
+
+// Реактивное состояние
+const accounts = ref<AccountRecord[]>([])
+
+// Генерация уникального ID
+const generateId = () => Math.random().toString(36).substr(2, 9)
+
+// Добавление новой записи
+const addNewRecord = () => {
+  const newRecord: AccountRecord = {
+    id: generateId(),
+    tags: '',
+    type: 'local',
+    login: '',
+    password: '',
+    errors: {
+      tags: false,
+      login: false,
+      password: false
+    }
+  }
+  accounts.value.push(newRecord)
+}
+
+// Удаление записи
+const deleteRecord = (id: string) => {
+  const index = accounts.value.findIndex(account => account.id === id)
+  if (index > -1) {
+    accounts.value.splice(index, 1)
+    saveToStorage()
+  }
+}
+
+// Валидация полей
+const validateRecord = (record: AccountRecord) => {
+  const errors = {
+    tags: !record.tags.trim(),
+    login: !record.login.trim(),
+    password: record.type === 'local' && !record.password.trim()
+  }
+  
+  record.errors = errors
+  return !Object.values(errors).some(error => error)
+}
+
+// Парсинг меток в массив объектов
+const parseTags = (tagsString: string) => {
+  if (!tagsString.trim()) return []
+  return tagsString.split(';').map(tag => ({ text: tag.trim() })).filter(tag => tag.text)
+}
+
+// Сохранение в localStorage
+const saveToStorage = () => {
+  const dataToSave = accounts.value.map(account => ({
+    id: account.id,
+    tags: account.tags,
+    type: account.type,
+    login: account.login,
+    password: account.password
+  }))
+  localStorage.setItem('accountRecords', JSON.stringify(dataToSave))
+}
+
+// Загрузка из localStorage
+const loadFromStorage = () => {
+  const saved = localStorage.getItem('accountRecords')
+  if (saved) {
+    try {
+      const data = JSON.parse(saved)
+      accounts.value = data.map((item: any) => ({
+        ...item,
+        errors: {
+          tags: false,
+          login: false,
+          password: false
+        }
+      }))
+    } catch (error) {
+      console.error('Ошибка загрузки данных:', error)
+    }
+  }
+}
+
+// Обработчики событий
+const onTagsBlur = (record: AccountRecord) => {
+  validateRecord(record)
+  saveToStorage()
+}
+
+const onLoginBlur = (record: AccountRecord) => {
+  validateRecord(record)
+  saveToStorage()
+}
+
+const onPasswordBlur = (record: AccountRecord) => {
+  validateRecord(record)
+  saveToStorage()
+}
+
+const onTypeChange = (record: AccountRecord) => {
+  validateRecord(record)
+  saveToStorage()
+}
+
+// Загрузка данных при монтировании
+onMounted(() => {
+  loadFromStorage()
+  
+  // Инициализация с примерами данных если нет сохраненных
+  if (accounts.value.length === 0) {
+    accounts.value = [
+      {
+        id: generateId(),
+        tags: 'XXX',
+        type: 'local',
+        login: 'Значение',
+        password: '••••••••',
+        errors: { tags: false, login: false, password: false }
+      },
+      {
+        id: generateId(),
+        tags: 'XXX; YYYYYYYYYY; IIIIIIII; MMMMMMMMMM',
+        type: 'local',
+        login: 'Значение',
+        password: '••••••••',
+        errors: { tags: false, login: false, password: false }
+      },
+      {
+        id: generateId(),
+        tags: 'XXX',
+        type: 'local',
+        login: 'Значение',
+        password: '••••••••',
+        errors: { tags: false, login: false, password: false }
+      },
+      {
+        id: generateId(),
+        tags: 'Значение',
+        type: 'ldap',
+        login: 'Значение',
+        password: '',
+        errors: { tags: false, login: false, password: false }
+      },
+      {
+        id: generateId(),
+        tags: 'Значение',
+        type: 'ldap',
+        login: 'Значение',
+        password: '',
+        errors: { tags: false, login: false, password: false }
+      }
+    ]
+  }
+})
+</script>
+
 <template>
   <div class="account-manager">
     <!-- Step 1: Header and Informational Bar -->
     <div class="header">
       <div class="title-section">
         <h1 class="main-title">Учетные записи</h1>
-        <button class="add-button">
+        <button class="add-button" @click="addNewRecord">
           <span class="plus-icon">+</span>
         </button>
       </div>
@@ -26,139 +198,74 @@
         <div class="header-cell actions-header"></div>
       </div>
 
-      <!-- Step 3: Local Account Entry Rows -->
+      <!-- Dynamic Account Rows -->
       <div class="table-body">
-        <!-- Local Account Row 1 -->
-        <div class="table-row">
+        <div 
+          v-for="account in accounts" 
+          :key="account.id" 
+          class="table-row"
+        >
+          <!-- Tags Cell -->
           <div class="cell tags-cell">
-            <input type="text" class="input-field" value="XXX" />
+            <input 
+              type="text" 
+              class="input-field"
+              :class="{ 'error': account.errors.tags }"
+              v-model="account.tags"
+              @blur="onTagsBlur(account)"
+              placeholder="Введите метки"
+            />
           </div>
+          
+          <!-- Type Cell -->
           <div class="cell type-cell">
-            <select class="dropdown">
+            <select 
+              class="dropdown"
+              v-model="account.type"
+              @change="onTypeChange(account)"
+            >
               <option value="local">Локальная</option>
               <option value="ldap">LDAP</option>
             </select>
           </div>
+          
+          <!-- Login Cell -->
           <div class="cell login-cell">
-            <input type="text" class="input-field" value="Значение" />
+            <input 
+              type="text" 
+              class="input-field"
+              :class="{ 'error': account.errors.login }"
+              v-model="account.login"
+              @blur="onLoginBlur(account)"
+              placeholder="Введите логин"
+            />
           </div>
+          
+          <!-- Password Cell -->
           <div class="cell password-cell">
-            <div class="password-container">
-              <input type="password" class="password-input" value="••••••••" />
+            <div v-if="account.type === 'local'" class="password-container">
+              <input 
+                type="password" 
+                class="password-input"
+                :class="{ 'error': account.errors.password }"
+                v-model="account.password"
+                @blur="onPasswordBlur(account)"
+                placeholder="Введите пароль"
+              />
               <button class="password-toggle" type="button">
                 <span class="eye-icon">👁</span>
               </button>
             </div>
-          </div>
-          <div class="cell actions-cell">
-            <button class="delete-button" type="button">
-              <span class="trash-icon">🗑</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Local Account Row 2 -->
-        <div class="table-row">
-          <div class="cell tags-cell">
-            <input type="text" class="input-field" value="XXX; YYYYYYYYYY; IIIIIIII; MMMMMMMMMM" />
-          </div>
-          <div class="cell type-cell">
-            <select class="dropdown">
-              <option value="local">Локальная</option>
-              <option value="ldap">LDAP</option>
-            </select>
-          </div>
-          <div class="cell login-cell">
-            <input type="text" class="input-field" value="Значение" />
-          </div>
-          <div class="cell password-cell">
-            <div class="password-container">
-              <input type="password" class="password-input" value="••••••••" />
-              <button class="password-toggle" type="button">
-                <span class="eye-icon">👁</span>
-              </button>
-            </div>
-          </div>
-          <div class="cell actions-cell">
-            <button class="delete-button" type="button">
-              <span class="trash-icon">🗑</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Local Account Row 3 -->
-        <div class="table-row">
-          <div class="cell tags-cell">
-            <input type="text" class="input-field" value="XXX" />
-          </div>
-          <div class="cell type-cell">
-            <select class="dropdown">
-              <option value="local">Локальная</option>
-              <option value="ldap">LDAP</option>
-            </select>
-          </div>
-          <div class="cell login-cell">
-            <input type="text" class="input-field" value="Значение" />
-          </div>
-          <div class="cell password-cell">
-            <div class="password-container">
-              <input type="password" class="password-input" value="••••••••" />
-              <button class="password-toggle" type="button">
-                <span class="eye-icon">👁</span>
-              </button>
-            </div>
-          </div>
-          <div class="cell actions-cell">
-            <button class="delete-button" type="button">
-              <span class="trash-icon">🗑</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Step 4: LDAP Account Entry Rows -->
-        <!-- LDAP Account Row 1 -->
-        <div class="table-row">
-          <div class="cell tags-cell">
-            <input type="text" class="input-field" value="Значение" />
-          </div>
-          <div class="cell type-cell">
-            <select class="dropdown">
-              <option value="ldap">LDAP</option>
-              <option value="local">Локальная</option>
-            </select>
-          </div>
-          <div class="cell login-cell">
-            <input type="text" class="input-field" value="Значение" />
-          </div>
-          <div class="cell password-cell">
             <!-- Empty for LDAP accounts -->
           </div>
+          
+          <!-- Actions Cell -->
           <div class="cell actions-cell">
-            <button class="delete-button" type="button">
-              <span class="trash-icon">🗑</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- LDAP Account Row 2 -->
-        <div class="table-row">
-          <div class="cell tags-cell">
-            <input type="text" class="input-field" value="Значение" />
-          </div>
-          <div class="cell type-cell">
-            <select class="dropdown">
-              <option value="ldap">LDAP</option>
-              <option value="local">Локальная</option>
-            </select>
-          </div>
-          <div class="cell login-cell">
-            <input type="text" class="input-field" value="Значение" />
-          </div>
-          <div class="cell password-cell">
-            <!-- Empty for LDAP accounts -->
-          </div>
-          <div class="cell actions-cell">
-            <button class="delete-button" type="button">
+            <button 
+              class="delete-button" 
+              type="button"
+              @click="deleteRecord(account.id)"
+            >
               <span class="trash-icon">🗑</span>
             </button>
           </div>
@@ -349,6 +456,11 @@
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
+.input-field.error {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+}
+
 /* Dropdown Styles */
 .dropdown {
   width: 100%;
@@ -395,6 +507,11 @@
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.password-input.error {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
 }
 
 .password-toggle {
